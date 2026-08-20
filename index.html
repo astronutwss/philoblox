@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhiloBlox - Discover & Battle</title>
+    <title>PhiloBlox - Learn & Battle</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -684,12 +684,12 @@
 <body>
 
     <div id="loader-screen">
-        <div class="loader-logo">PHILOPLAY CLIENT</div>
+        <div class="loader-logo">PhiloBlox Initializing...</div>
         <div class="loader-bar-bg">
             <div class="loader-bar-fill" id="load-progress"></div>
         </div>
-        <div id="loader-status" style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">Loading Assets...</div>
-        <button class="launch-btn" id="launch-app-btn" onclick="dismissLoader()">PLAY NOW</button>
+        <div id="loader-status" style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">Assets Loading...</div>
+        <button class="launch-btn" id="launch-app-btn" onclick="dismissLoader()">CLICK TO PLAY</button>
     </div>
 
     <div class="achievement-popup" id="achievement-popup">
@@ -714,7 +714,7 @@
 
     <div class="hero-banner">
         <h2>Ultimate Philosophy Arena</h2>
-        <p>Choose your arena, learn the core secret, and battle legendary thinkers to level up your mind!</p>
+        <p>Learn The Core Secret, Play And Learn To Level Up!</p>
     </div>
 
     <div class="container">
@@ -724,7 +724,7 @@
             
             <div class="game-card" onclick="openGame('socrates')">
                 <div class="game-thumb-wrapper">
-                    <img src="socrates.png" alt="Socrates" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="./socrates.png" alt="Socrates" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="fallback-thumb" style="display:none;">socrates.png</div>
                     <div class="thumb-menu-dots">•••</div>
                 </div>
@@ -744,7 +744,7 @@
 
             <div class="game-card" onclick="openGame('plato')">
                 <div class="game-thumb-wrapper">
-                    <img src="plato.png" alt="Plato" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="./plato.png" alt="Plato" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="fallback-thumb" style="display:none;">plato.png</div>
                     <div class="thumb-menu-dots">•••</div>
                 </div>
@@ -764,7 +764,7 @@
 
             <div class="game-card" onclick="openGame('aristotle')">
                 <div class="game-thumb-wrapper">
-                    <img src="aristotle.png" alt="Aristotle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="./aristotle.png" alt="Aristotle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="fallback-thumb" style="display:none;">aristotle.png</div>
                     <div class="thumb-menu-dots">•••</div>
                 </div>
@@ -790,9 +790,9 @@
                 <div class="card-details">
                     <div class="game-title" style="color: #ff6b8b;">Grand Boss Arena</div>
                     <div class="game-rating-row">
-                        <span>Lightning Timer</span>
+                        <span>Lighting Timer</span>
                         <span>•</span>
-                        <span>Ultimate Test</span>
+                        <span>Test Your Knowledge!</span>
                     </div>
                     <div class="level-tag" id="badge-boss" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">Locked Arena</div>
                     <button class="play-action-btn" id="boss-action-btn" style="background: linear-gradient(135deg, #374151, #1f2937); cursor: not-allowed;">
@@ -856,6 +856,9 @@
             }, 400);
         }
 
+            //// QUESTIONS AND ANSWER AREA ////**
+
+
         const gameData = {
             socrates: {
                 name: "Wisdom Arena",
@@ -907,7 +910,7 @@
             first_step: { name: "First Step", desc: "Complete any level", icon: "🌱", unlocked: false },
             socrates_master: { name: "Socrates Master", desc: "Finish Wisdom Arena", icon: "🏛️", unlocked: false },
             plato_master: { name: "Plato Master", desc: "Finish Plato's Realm", icon: "🔮", unlocked: false },
-            aristotle_master: { name: "Aristotle Master", desc: "Finish Virtue Quest", icon: "⚔️", unlocked: false },
+            aristotle_master: { name: "Aristotle Master", desc: "Finish The Virtue Quest", icon: "⚔️", unlocked: false },
             grand_philosopher: { name: "Grand Philosopher", desc: "Beat the Grand Boss Arena", icon: "👑", unlocked: false }
         };
 
@@ -977,6 +980,8 @@
             const bossThumb = document.getElementById('boss-thumb-text');
             const bossBadge = document.getElementById('badge-boss');
             const bossBtn = document.getElementById('boss-action-btn');
+            
+                ///SECRET GAME MODE
 
             if (bossUnlocked) {
                 bossCard.classList.remove('locked-arena');
@@ -1103,6 +1108,9 @@
             `;
         }
 
+            ///ANDITO HP
+
+
         function startQuizStage(levelNum) {
             const modalBody = document.getElementById('modal-body-content');
             const data = gameData[activeKey];
@@ -1149,7 +1157,7 @@
                     currentHP = 100;
                     showLessonStage(levelNum);
                 } else {
-                    alert("Wrong answer, you took damage! Read the lesson carefully and pick again.");
+                    alert("Mali Sagot mo, Try mo ulit.");
                 }
             }
         }
@@ -1221,6 +1229,8 @@
                 }
             }, 1000);
         }
+
+            //final boss hp haha
 
         function checkBossAnswer(selected, correct) {
             if (bossTimerInterval) clearInterval(bossTimerInterval);
