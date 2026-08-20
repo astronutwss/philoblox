@@ -1,1 +1,1277 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WHO AM I?</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#eaf4ff;color:#222}.topbar{height:70px;background:#fff;border-bottom:3px solid #d8e5f2;display:flex;align-items:center;justify-content:space-between;padding:0 35px;position:sticky;top:0}.logo{font-size:25px;font-weight:900;color:#2563eb}.stats{display:flex;gap:15px}.stat{background:#f1f5f9;padding:10px 18px;border-radius:14px;font-weight:bold}.hero{max-width:1100px;margin:35px auto;padding:45px;border-radius:30px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;min-height:310px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 15px 35px #6464a533}.hero-text{max-width:600px}.hero h1{font-size:58px;line-height:1;margin-bottom:12px}.hero p{font-size:20px;margin-bottom:25px}.play-button{border:0;background:#facc15;color:#222;font-size:20px;font-weight:900;padding:16px 35px;border-radius:16px;cursor:pointer;box-shadow:0 6px 0 #ca8a04}.avatar{width:190px;height:190px;border-radius:35px;background:#facc15;border:8px solid white;display:flex;align-items:center;justify-content:center;font-size:90px}.content{max-width:1100px;margin:0 auto 60px}.section-title{font-size:30px;margin-bottom:18px}.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.level{background:#fff;border:3px solid #dbeafe;border-radius:22px;padding:24px;min-height:190px;transition:.2s;cursor:pointer}.level:hover{transform:translateY(-6px);border-color:#6366f1;box-shadow:0 12px 25px #4646961f}.level-icon{font-size:42px;margin-bottom:12px}.level h3{font-size:20px;margin-bottom:8px}.level p{color:#64748b;line-height:1.4}.locked{opacity:.55}.philosophers{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.philosopher{background:#fff;border-radius:22px;padding:20px;display:flex;gap:15px;align-items:center}.portrait{width:75px;height:75px;border-radius:18px;background:#ddd6fe;display:flex;align-items:center;justify-content:center;font-size:38px}.philosopher h3{margin-bottom:5px}.philosopher p{color:#64748b;font-size:14px}@media(max-width:800px){.hero{margin:20px;padding:30px}.hero h1{font-size:42px}.avatar{display:none}.levels{grid-template-columns:1fr 1fr;margin:20px}.philosophers{grid-template-columns:1fr;margin:20px}}@media(max-width:500px){.topbar{padding:0 15px}.stats{gap:5px}.stat{padding:8px;font-size:12px}.levels{grid-template-columns:1fr}}</style></head><body><header class="topbar"><div class="logo">WHO AM I?</div><div class="stats"><div class="stat">⭐ 120 XP</div><div class="stat">🏆 Level 3</div></div></header><main><section class="hero"><div class="hero-text"><h1>WHO AM I?</h1><p>Discover philosophers, make choices, test your memory, and figure out what makes you YOU.</p><button class="play-button" onclick="startGame()">PLAY NOW</button></div><div class="avatar">🧑</div></section><section class="content"><h2 class="section-title">Your Levels</h2><div class="levels"><div class="level"><div class="level-icon">🧠</div><h3>Level 1</h3><p>Meet the philosophers and learn their ideas.</p></div><div class="level"><div class="level-icon">🎯</div><h3>Level 2</h3><p>Make choices in everyday situations.</p></div><div class="level locked"><div class="level-icon">🧩</div><h3>Level 3</h3><p>Test your memory and earn XP.</p></div><div class="level locked"><div class="level-icon">💭</div><h3>Level 4</h3><p>Think about yourself and your decisions.</p></div></div></section><section class="content"><h2 class="section-title">Meet the Thinkers</h2><div class="philosophers"><div class="philosopher"><div class="portrait">👨</div><div><h3>Socrates</h3><p>Question yourself. Examine your ideas.</p></div></div><div class="philosopher"><div class="portrait">📚</div><div><h3>Plato</h3><p>Explore ideas, knowledge, and reality.</p></div></div><div class="philosopher"><div class="portrait">🧔</div><div><h3>Aristotle</h3><p>Think about character, choices, and living well.</p></div></div></div></section></main><script>function startGame(){alert('Game starting! Your first level would open here.');}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhiloBlox - Learn & Battle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d0f18 0%, #171b2c 50%, #101320 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            will-change: auto;
+        }
+
+        #loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #090c15;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .loader-logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #0070f3, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: pulseLogo 1.5s infinite alternate;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0,112,243,0.4)); }
+            100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0,255,204,0.7)); }
+        }
+
+        .loader-bar-bg {
+            width: 320px;
+            height: 14px;
+            background: #151b2e;
+            border-radius: 7px;
+            overflow: hidden;
+            border: 2px solid #253053;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.6);
+        }
+
+        .loader-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #0070f3, #00ffcc);
+            transition: width 0.08s linear;
+            box-shadow: 0 0 12px rgba(0,255,204,0.6);
+        }
+
+        .launch-btn {
+            background: linear-gradient(135deg, #00ffcc, #00b06f);
+            color: #090c15;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 14px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,255,204,0.4);
+            display: none;
+            transition: transform 0.1s, filter 0.2s;
+        }
+
+        .launch-btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.05);
+        }
+
+        header {
+            background-color: rgba(22, 26, 42, 0.95);
+            backdrop-filter: blur(10px);
+            height: 64px;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #2a3252;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-container img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0, 112, 243, 0.6));
+        }
+
+        header h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #0070f3, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .player-status-badge {
+            background: linear-gradient(135deg, #1f293d, #111827);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #00ffcc;
+            font-weight: 900;
+            border: 2px solid #2a3252;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05);
+        }
+
+        .badges-btn {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+            transition: transform 0.1s, filter 0.2s;
+        }
+
+        .badges-btn:hover {
+            filter: brightness(1.15);
+            transform: scale(1.03);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            transition: transform 0.1s, filter 0.2s;
+        }
+
+        .reset-btn:hover {
+            filter: brightness(1.15);
+            transform: scale(1.03);
+        }
+
+        .hero-banner {
+            max-width: 1300px;
+            margin: 24px auto 0 auto;
+            width: calc(100% - 48px);
+            background: linear-gradient(135deg, #1e253f 0%, #131829 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #2e3a63;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .hero-banner p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .game-card {
+            background: #181d30;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 2px solid #232a45;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
+            will-change: transform;
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #0070f3;
+            box-shadow: 0 14px 35px rgba(0, 112, 243, 0.3);
+        }
+
+        .game-card.locked-arena {
+            opacity: 0.6;
+            border-color: #3b2a2a;
+        }
+
+        .game-thumb-wrapper {
+            width: 100%;
+            height: 160px;
+            background-color: #101422;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-thumb-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover .game-thumb-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .fallback-thumb {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        .thumb-menu-dots {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-details {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .game-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .game-rating-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .level-tag {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 12px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            width: fit-content;
+            margin-bottom: 14px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+
+        .play-action-btn {
+            background: linear-gradient(135deg, #0070f3, #0051cc);
+            color: white;
+            border: none;
+            width: 100%;
+            height: 46px;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
+            transition: filter 0.2s, transform 0.1s;
+            margin-top: auto;
+        }
+
+        .play-action-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .play-triangle {
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 12px solid white;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 7, 13, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: linear-gradient(145deg, #1a2035, #121726);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            border: 2px solid #2e3a63;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background-color: #161c2e;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #252e4d;
+        }
+
+        .modal-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .close-modal {
+            background: #252e4d;
+            border: none;
+            color: #94a3b8;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .close-modal:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background-color: #111522;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #232b45;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #0b0e17;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #1f2942;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 100%;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #hp-fill {
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        #exp-fill {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #1b233a, #13192b);
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            border-left: 5px solid #0070f3;
+            color: #e2e8f0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .question-box {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #222a42, #181f33);
+            color: white;
+            border: 2px solid #2d3859;
+            padding: 14px 18px;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .option-btn:hover {
+            background: linear-gradient(135deg, #2b3554, #202a45);
+            border-color: #0070f3;
+            transform: translateX(4px);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            transition: filter 0.2s, transform 0.1s;
+        }
+
+        .action-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .achievement-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid #00ffcc;
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.3);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 10000;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+
+        .achievement-popup.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .achievement-icon {
+            font-size: 32px;
+            background: #111827;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #22d3ee;
+        }
+
+        .achievement-text h4 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 12px;
+            color: #00ffcc;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .achievement-text p {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 14px;
+            padding-top: 10px;
+        }
+
+        .badge-item {
+            background: #111624;
+            border: 2px solid #232d4a;
+            border-radius: 14px;
+            padding: 16px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .badge-item.unlocked {
+            border-color: #00ffcc;
+            background: linear-gradient(145deg, #162035, #111624);
+            box-shadow: 0 4px 15px rgba(0,255,204,0.15);
+        }
+
+        .badge-item.locked {
+            opacity: 0.4;
+            filter: grayscale(1);
+        }
+
+        .badge-icon-box {
+            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            background: #0a0e17;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #2a365c;
+        }
+
+        .badge-item.unlocked .badge-icon-box {
+            border-color: #00ffcc;
+        }
+
+        .badge-name {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .badge-desc {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader-screen">
+        <div class="loader-logo">PhiloBlox Initializing...</div>
+        <div class="loader-bar-bg">
+            <div class="loader-bar-fill" id="load-progress"></div>
+        </div>
+        <div id="loader-status" style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">Assets Loading...</div>
+        <button class="launch-btn" id="launch-app-btn" onclick="dismissLoader()">CLICK TO PLAY</button>
+    </div>
+
+    <div class="achievement-popup" id="achievement-popup">
+        <div class="achievement-icon" id="popup-icon">🏆</div>
+        <div class="achievement-text">
+            <h4>Achievement Unlocked!</h4>
+            <p id="popup-title">Badge Name</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+            <h1>PhiloBlox</h1>
+        </div>
+        <div class="nav-right">
+            <div class="player-status-badge" id="global-rank">Total Level: 3</div>
+            <button class="badges-btn" onclick="openBadgesModal()">Badges</button>
+            <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+        </div>
+    </header>
+
+    <div class="hero-banner">
+        <h2>Ultimate Philosophy Arena</h2>
+        <p>Learn The Core Secret, Play And Learn To Level Up!</p>
+    </div>
+
+    <div class="container">
+        <div class="section-title">Recommended For You</div>
+
+        <div class="games-grid">
+            
+            <div class="game-card" onclick="openGame('socrates')">
+                <div class="game-thumb-wrapper">
+                    <img src="socrates.png" alt="Socrates" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="fallback-thumb" style="display:none;">socrates.jpg</div>
+                    <div class="thumb-menu-dots">•••</div>
+                </div>
+                <div class="card-details">
+                    <div class="game-title">Wisdom Arena</div>
+                    <div class="game-rating-row">
+                        <span>99% Rating</span>
+                        <span>•</span>
+                        <span>Socrates</span>
+                    </div>
+                    <div class="level-tag" id="badge-socrates">Level 1 / 5</div>
+                    <button class="play-action-btn">
+                        <div class="play-triangle"></div> Play
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="openGame('plato')">
+                <div class="game-thumb-wrapper">
+                    <img src="plato.png" alt="Plato" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="fallback-thumb" style="display:none;">plato.png</div>
+                    <div class="thumb-menu-dots">•••</div>
+                </div>
+                <div class="card-details">
+                    <div class="game-title">Plato's Realm</div>
+                    <div class="game-rating-row">
+                        <span>97% Rating</span>
+                        <span>•</span>
+                        <span>Plato</span>
+                    </div>
+                    <div class="level-tag" id="badge-plato">Level 1 / 5</div>
+                    <button class="play-action-btn">
+                        <div class="play-triangle"></div> Play
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="openGame('aristotle')">
+                <div class="game-thumb-wrapper">
+                    <img src="aristotle.png" alt="Aristotle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="fallback-thumb" style="display:none;">aristotle.png</div>
+                    <div class="thumb-menu-dots">•••</div>
+                </div>
+                <div class="card-details">
+                    <div class="game-title">Virtue Quest</div>
+                    <div class="game-rating-row">
+                        <span>98% Rating</span>
+                        <span>•</span>
+                        <span>Aristotle</span>
+                    </div>
+                    <div class="level-tag" id="badge-aristotle">Level 1 / 5</div>
+                    <button class="play-action-btn">
+                        <div class="play-triangle"></div> Play
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card" id="boss-card-wrapper" onclick="openGame('boss')">
+                <div class="game-thumb-wrapper" style="background: linear-gradient(135deg, #2b1120, #4a1525);">
+                    <div class="fallback-thumb" id="boss-thumb-text" style="color: #ff4466; font-family: 'Fredoka', sans-serif;">🔒 LOCKED</div>
+                    <div class="thumb-menu-dots">👑</div>
+                </div>
+                <div class="card-details">
+                    <div class="game-title" style="color: #ff6b8b;">Grand Boss Arena</div>
+                    <div class="game-rating-row">
+                        <span>Lighting Timer</span>
+                        <span>•</span>
+                        <span>Test Your Knowledge!</span>
+                    </div>
+                    <div class="level-tag" id="badge-boss" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">Locked Arena</div>
+                    <button class="play-action-btn" id="boss-action-btn" style="background: linear-gradient(135deg, #374151, #1f2937); cursor: not-allowed;">
+                        <div class="play-triangle" style="border-left-color: #9ca3af;"></div> Locked
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="game-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-game-title">PhiloBlox Session</h2>
+                <button class="close-modal" onclick="closeGame()">✕</button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="badges-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Your Achievement Badges</h2>
+                <button class="close-modal" onclick="closeBadgesModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="badges-grid" id="badges-grid-container">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let loadPercent = 0;
+        const loadInterval = setInterval(() => {
+            loadPercent += Math.floor(Math.random() * 18) + 8;
+            if (loadPercent >= 100) {
+                loadPercent = 100;
+                clearInterval(loadInterval);
+                document.getElementById('loader-status').innerText = "Ready to Launch!";
+                document.getElementById('load-progress').style.width = "100%";
+                document.getElementById('launch-app-btn').style.display = "block";
+            } else {
+                document.getElementById('load-progress').style.width = loadPercent + "%";
+                if(loadPercent > 70) {
+                    document.getElementById('loader-status').innerText = "Connecting to Server...";
+                } else if(loadPercent > 40) {
+                    document.getElementById('loader-status').innerText = "Loading Arena Physics...";
+                }
+            }
+        }, 60);
+
+        function dismissLoader() {
+            const loader = document.getElementById('loader-screen');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 400);
+        }
+
+            //// QUESTIONS AND ANSWER AREA ////**
+
+
+        const gameData = {
+            socrates: {
+                name: "Wisdom Arena",
+                philosopher: "Socrates",
+                badgeKey: "socrates_master",
+                levels: [
+                    { lesson: "Lesson 1: The unexamined life is not worth living! Socrates teaches us that true smarts start when you question your own thoughts instead of just following the crowd.", question: "What does Socrates mean by questioning your life?", options: ["Checking your beliefs instead of following blindly", "Taking school exams every single day", "Running away from hard arguments"], correct: 0 },
+                    { lesson: "Lesson 2: Know Thyself! Socrates says the first superpower is admitting when you don't know something so you can learn.", question: "What is the secret first step to becoming wise?", options: ["Pretending you know everything", "Admitting what you don't know", "Winning every argument"], correct: 1 },
+                    { lesson: "Lesson 3: The Socratic Method! Instead of giving boring lectures, Socrates asks smart questions to help people think for themselves.", question: "How does the Socratic Method work best?", options: ["By asking guiding questions to make you think", "By giving you long lists of text to memorize", "By ignoring what others say"], correct: 0 },
+                    { lesson: "Lesson 4: Soul over Body! Your true self isn't just your avatar or physical look—it's your thinking soul and character inside.", question: "According to Socrates, what is your true core?", options: ["Your cool avatar and gear", "Your physical strength", "Your reasoning soul and character"], correct: 2 },
+                    { lesson: "Lesson 5: Ultimate Integrity! Socrates chose to stay true to his beliefs rather than lie, proving character matters most.", question: "Why did Socrates stand firm on his principles?", options: ["To protect his real character and truth", "Because he wanted a challenge", "To show off to his friends"], correct: 0 }
+                ]
+            },
+            plato: {
+                name: "Plato's Realm",
+                philosopher: "Plato",
+                badgeKey: "plato_master",
+                levels: [
+                    { lesson: "Lesson 1: The Three Parts of the Soul! Plato says your mind has Reason (Logic), Spirit (Courage), and Appetite (Desires). Balance is key!", question: "Which of these is part of Plato's soul model?", options: ["Reason, Spirit, and Appetite", "Code, Server, and Client", "Speed, Jump, and Fly"], correct: 0 },
+                    { lesson: "Lesson 2: Rule with Reason! Your thinking mind should guide your choices instead of letting raw emotions or instant cravings take over.", question: "Which part should be in control of your choices?", options: ["Wild appetite", "Reason and logic", "Random impulses"], correct: 1 },
+                    { lesson: "Lesson 3: The Cave Illusion! People trapped looking at shadows mistake fake things for reality. Education helps you see the actual truth.", question: "What do the cave shadows represent in Plato's story?", options: ["Ultimate facts", "Illusions and fake appearances", "Cool lighting effects"], correct: 1 },
+                    { lesson: "Lesson 4: World of Forms! Material objects fade and change, but eternal ideas like Justice, Truth, and Beauty never change.", question: "How does Plato describe physical objects?", options: ["As permanent perfection", "As temporary copies of real Forms", "As illusions that do not exist"], correct: 1 },
+                    { lesson: "Lesson 5: Inner Harmony! When all parts of your mind work together properly, you achieve true justice and self-mastery.", question: "What creates a truly balanced, self-mastered person?", options: ["Letting anger take over", "Harmony guided by wisdom", "Ignoring your goals"], correct: 1 }
+                ]
+            },
+            aristotle: {
+                name: "Virtue Quest",
+                philosopher: "Aristotle",
+                badgeKey: "aristotle_master",
+                levels: [
+                    { lesson: "Lesson 1: Mind and Body Unity! Aristotle taught that body and soul work together as one team—they cannot be separated.", question: "How does Aristotle connect body and soul?", options: ["They are completely separate", "They function together as one unified whole", "The body holds back the mind"], correct: 1 },
+                    { lesson: "Lesson 2: Finding Your Telos! Everything has a purpose. For humans, our ultimate goal is Eudaimonia—living a flourishing, happy life.", question: "What does Eudaimonia mean?", options: ["Accumulating endless points", "Human flourishing and living well", "Taking a nap all day"], correct: 1 },
+                    { lesson: "Lesson 3: The Golden Mean! True virtue lives right in the middle between two extremes—like courage being the sweet spot between cowardice and recklessness.", question: "Where is virtue found according to Aristotle?", options: ["At absolute extremes", "In the golden mean between too much and too little", "By doing nothing"], correct: 1 },
+                    { lesson: "Lesson 4: Practice Makes Perfect! Excellence isn't a one-time trick; it's built through good habits. We are what we repeatedly do.", question: "How do you build good character traits?", options: ["Through daily habits and practice", "By wishing for them", "By reading once"], correct: 0 },
+                    { lesson: "Lesson 5: The Rational Animal! Aristotle called humans social and rational creatures whose highest calling is using reason to live virtuously.", question: "What makes human nature special to Aristotle?", options: ["Being able to use reason and live virtuously", "Being the strongest fighter", "Living completely alone"], correct: 0 }
+                ]
+            }
+        };
+
+        const bossQuestions = [
+            { question: "What is the main idea behind Socrates' Socratic Method?", options: ["Guiding people with intelligent questions", "Memorizing long textbooks", "Fighting opponents directly"], correct: 0 },
+            { question: "Which components make up Plato's model of the soul?", options: ["Reason, Spirit, and Appetite", "Speed, Strength, and Defense", "Code, Logic, and Power"], correct: 0 },
+            { question: "According to Aristotle, what does Eudaimonia mean?", options: ["Human flourishing and living well", "Infinite point multipliers", "Total isolation"], correct: 0 },
+            { question: "What does Plato's Allegory of the Cave represent?", options: ["Shadows as illusions vs true reality", "An actual underground bunker", "A physics experiment"], correct: 0 },
+            { question: "What is Aristotle's Golden Mean?", options: ["The balance point between two extremes", "The absolute maximum value", "A math formula"], correct: 0 }
+        ];
+
+        const achievementsList = {
+            first_step: { name: "First Step", desc: "Complete any level", icon: "🌱", unlocked: false },
+            socrates_master: { name: "Socrates Master", desc: "Finish Wisdom Arena", icon: "🏛️", unlocked: false },
+            plato_master: { name: "Plato Master", desc: "Finish Plato's Realm", icon: "🔮", unlocked: false },
+            aristotle_master: { name: "Aristotle Master", desc: "Finish Virtue Quest", icon: "⚔️", unlocked: false },
+            grand_philosopher: { name: "Grand Philosopher", desc: "Beat the Grand Boss Arena", icon: "👑", unlocked: false }
+        };
+
+        let userProgress = JSON.parse(localStorage.getItem('philoblox_progress')) || {
+            socrates: 1,
+            plato: 1,
+            aristotle: 1
+        };
+
+        let unlockedBadges = JSON.parse(localStorage.getItem('philoblox_badges')) || {
+            first_step: false,
+            socrates_master: false,
+            plato_master: false,
+            aristotle_master: false,
+            grand_philosopher: false
+        };
+
+        let activeKey = null;
+        let currentHP = 100;
+        let bossTimerInterval = null;
+        let bossTimeLeft = 15;
+        let bossCurrentIndex = 0;
+
+        function triggerAchievement(badgeKey) {
+            if (!unlockedBadges[badgeKey]) {
+                unlockedBadges[badgeKey] = true;
+                localStorage.setItem('philoblox_badges', JSON.stringify(unlockedBadges));
+                
+                const badgeInfo = achievementsList[badgeKey];
+                document.getElementById('popup-icon').innerText = badgeInfo.icon;
+                document.getElementById('popup-title').innerText = badgeInfo.name;
+                
+                const popup = document.getElementById('achievement-popup');
+                popup.classList.add('show');
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                }, 3500);
+            }
+        }
+
+        function isBossUnlocked() {
+            return userProgress.socrates > 5 && userProgress.plato > 5 && userProgress.aristotle > 5;
+        }
+
+        function checkAchievements() {
+            let totalLvl = 0;
+            for (let key in userProgress) {
+                if(key !== 'boss') totalLvl += userProgress[key];
+            }
+
+            if (totalLvl > 3) {
+                triggerAchievement('first_step');
+            }
+
+            if (userProgress.socrates > 5) {
+                triggerAchievement('socrates_master');
+            }
+            if (userProgress.plato > 5) {
+                triggerAchievement('plato_master');
+            }
+            if (userProgress.aristotle > 5) {
+                triggerAchievement('aristotle_master');
+            }
+
+            const bossUnlocked = isBossUnlocked();
+            const bossCard = document.getElementById('boss-card-wrapper');
+            const bossThumb = document.getElementById('boss-thumb-text');
+            const bossBadge = document.getElementById('badge-boss');
+            const bossBtn = document.getElementById('boss-action-btn');
+            
+                ///SECRET GAME MODE
+
+            if (bossUnlocked) {
+                bossCard.classList.remove('locked-arena');
+                bossThumb.innerText = "BOSS ARENA";
+                bossThumb.style.color = "#00ffcc";
+                bossBadge.innerText = "Ready to Fight";
+                bossBadge.style.background = "linear-gradient(135deg, #10b981, #059669)";
+                bossBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
+                bossBtn.style.cursor = "pointer";
+                bossBtn.innerHTML = '<div class="play-triangle"></div> Challenge';
+            } else {
+                bossCard.classList.add('locked-arena');
+                bossThumb.innerText = "🔒 LOCKED";
+                bossThumb.style.color = "#ff4466";
+                bossBadge.innerText = "Locked Arena";
+                bossBadge.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
+                bossBtn.style.background = "linear-gradient(135deg, #374151, #1f2937)";
+                bossBtn.style.cursor = "not-allowed";
+                bossBtn.innerHTML = '<div class="play-triangle" style="border-left-color: #9ca3af;"></div> Locked';
+            }
+        }
+
+        function updateUI() {
+            let totalLvl = 0;
+            for (let key in userProgress) {
+                if (key !== 'boss') {
+                    let lvl = userProgress[key];
+                    totalLvl += lvl;
+                    document.getElementById(`badge-${key}`).innerText = `Level ${lvl} / 5`;
+                }
+            }
+            document.getElementById('global-rank').innerText = `Total Level: ${totalLvl}`;
+            localStorage.setItem('philoblox_progress', JSON.stringify(userProgress));
+            checkAchievements();
+        }
+
+        function openGame(key) {
+            if (key === 'boss' && !isBossUnlocked()) {
+                alert("Complete all 5 levels of Socrates, Plato, and Aristotle to unlock the Grand Boss Arena!");
+                return;
+            }
+
+            activeKey = key;
+            currentHP = 100;
+            
+            if (key === 'boss') {
+                bossCurrentIndex = 0;
+                document.getElementById('modal-game-title').innerText = "Grand Philosopher Boss Fight";
+                document.getElementById('game-modal').style.display = 'flex';
+                showBossStage();
+            } else {
+                let currentLevel = userProgress[key];
+                document.getElementById('modal-game-title').innerText = `${gameData[key].name} - ${gameData[key].philosopher}`;
+                document.getElementById('game-modal').style.display = 'flex';
+                showLessonStage(currentLevel);
+            }
+        }
+
+        function closeGame() {
+            if (bossTimerInterval) clearInterval(bossTimerInterval);
+            document.getElementById('game-modal').style.display = 'none';
+            activeKey = null;
+            updateUI();
+        }
+
+        function openBadgesModal() {
+            const grid = document.getElementById('badges-grid-container');
+            grid.innerHTML = '';
+            
+            for (let key in achievementsList) {
+                const item = achievementsList[key];
+                const isUnlocked = unlockedBadges[key];
+                
+                grid.innerHTML += `
+                    <div class="badge-item ${isUnlocked ? 'unlocked' : 'locked'}">
+                        <div class="badge-icon-box">${item.icon}</div>
+                        <div class="badge-name">${item.name}</div>
+                        <div class="badge-desc">${item.desc}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('badges-modal').style.display = 'flex';
+        }
+
+        function closeBadgesModal() {
+            document.getElementById('badges-modal').style.display = 'none';
+        }
+
+        function showLessonStage(levelNum) {
+            const modalBody = document.getElementById('modal-body-content');
+            const data = gameData[activeKey];
+
+            if (levelNum > 5) {
+                modalBody.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <h2 style="font-family: 'Fredoka', sans-serif; color: #22c55e; margin-bottom: 10px; font-size: 24px;">Arena Mastered!</h2>
+                        <p style="color: #94a3b8; margin-bottom: 20px;">Awesome job! You finished all levels of ${data.name} and totally mastered ${data.philosopher}!</p>
+                        <button class="action-btn" onclick="closeGame()">Back to Hub</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let stageData = data.levels[levelNum - 1];
+            let expPercentage = ((levelNum - 1) / 5) * 100;
+
+            modalBody.innerHTML = `
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-label"><span>HP</span><span id="hp-text">${currentHP}/100</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="hp-fill" style="width: ${currentHP}%"></div></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label"><span>STAGE (LVL ${levelNum}/5)</span><span>${Math.round(expPercentage)}%</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="exp-fill" style="width: ${expPercentage}%"></div></div>
+                    </div>
+                </div>
+
+                <div class="dialogue-box">
+                    <strong>Study Time (${data.philosopher}):</strong><br><br>${stageData.lesson}
+                </div>
+
+                <button class="action-btn" onclick="startQuizStage(${levelNum})">Ready to Battle! ▶</button>
+            `;
+        }
+
+            ///ANDITO HP
+
+
+        function startQuizStage(levelNum) {
+            const modalBody = document.getElementById('modal-body-content');
+            const data = gameData[activeKey];
+            let stageData = data.levels[levelNum - 1];
+            let expPercentage = ((levelNum - 1) / 5) * 100;
+
+            modalBody.innerHTML = `
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-label"><span>HP</span><span id="hp-text">${currentHP}/100</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="hp-fill" style="width: ${currentHP}%"></div></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label"><span>BATTLE (LVL ${levelNum}/5)</span><span>${Math.round(expPercentage)}%</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="exp-fill" style="width: ${expPercentage}%"></div></div>
+                    </div>
+                </div>
+
+                <div class="question-box">Challenge: ${stageData.question}</div>
+                
+                <div class="options-grid">
+                    ${stageData.options.map((opt, idx) => `
+                        <button class="option-btn" onclick="checkAnswer(${idx}, ${stageData.correct}, ${levelNum})">${opt}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selected, correct, levelNum) {
+            if (selected === correct) {
+                if (userProgress[activeKey] === levelNum) {
+                    userProgress[activeKey] = levelNum + 1;
+                    updateUI();
+                }
+                showLessonStage(levelNum + 1);
+            } else {
+                currentHP -= 34;
+                if (currentHP < 0) currentHP = 0;
+                document.getElementById('hp-fill').style.width = `${currentHP}%`;
+                document.getElementById('hp-text').innerText = `${currentHP}/100`;
+                
+                if (currentHP <= 0) {
+                    alert("Oof! Your HP hit 0 in the battle. Review the lesson and try again!");
+                    currentHP = 100;
+                    showLessonStage(levelNum);
+                } else {
+                    alert("Mali Sagot mo, Try mo ulit.");
+                }
+            }
+        }
+
+        function showBossStage() {
+            if (bossTimerInterval) clearInterval(bossTimerInterval);
+            
+            if (bossCurrentIndex >= bossQuestions.length) {
+                triggerAchievement('grand_philosopher');
+                document.getElementById('modal-body-content').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <h2 style="font-family: 'Fredoka', sans-serif; color: #00ffcc; margin-bottom: 10px; font-size: 26px;">Grand Boss Defeated!</h2>
+                        <p style="color: #94a3b8; margin-bottom: 20px;">Incredible! You conquered the lightning round and claimed the Grand Philosopher Crown!</p>
+                        <button class="action-btn" onclick="closeGame()">Return to Hub</button>
+                    </div>
+                `;
+                return;
+            }
+
+            bossTimeLeft = 15;
+            let qData = bossQuestions[bossCurrentIndex];
+            let progressPercent = (bossCurrentIndex / bossQuestions.length) * 100;
+
+            const modalBody = document.getElementById('modal-body-content');
+            modalBody.innerHTML = `
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-label"><span>BOSS HP</span><span id="boss-hp-text">${currentHP}/100</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="hp-fill" style="width: ${currentHP}%"></div></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label"><span>TIME LEFT</span><span id="timer-text" style="color: #ef4444;">15s</span></div>
+                        <div class="bar-container"><div class="bar-fill" id="exp-fill" style="width: ${progressPercent}%"></div></div>
+                    </div>
+                </div>
+
+                <div class="question-box" style="color: #ff6b8b;">Lightning Round (${bossCurrentIndex + 1}/${bossQuestions.length}): ${qData.question}</div>
+                
+                <div class="options-grid">
+                    ${qData.options.map((opt, idx) => `
+                        <button class="option-btn" onclick="checkBossAnswer(${idx}, ${qData.correct})">${opt}</button>
+                    `).join('')}
+                </div>
+            `;
+
+            bossTimerInterval = setInterval(() => {
+                bossTimeLeft--;
+                const timerEl = document.getElementById('timer-text');
+                if (timerEl) timerEl.innerText = `${bossTimeLeft}s`;
+
+                if (bossTimeLeft <= 0) {
+                    clearInterval(bossTimerInterval);
+                    currentHP -= 34;
+                    if (currentHP < 0) currentHP = 0;
+                    
+                    const hpFill = document.getElementById('hp-fill');
+                    const hpText = document.getElementById('hp-text');
+                    if (hpFill) hpFill.style.width = `${currentHP}%`;
+                    if (hpText) hpText.innerText = `${currentHP}/100`;
+
+                    if (currentHP <= 0) {
+                        alert("Time ran out and your HP hit 0! Try the Boss Arena again.");
+                        closeGame();
+                    } else {
+                        alert("Time's up! You took damage for being too slow.");
+                        bossCurrentIndex++;
+                        showBossStage();
+                    }
+                }
+            }, 1000);
+        }
+
+            //final boss hp haha
+
+        function checkBossAnswer(selected, correct) {
+            if (bossTimerInterval) clearInterval(bossTimerInterval);
+
+            if (selected === correct) {
+                bossCurrentIndex++;
+                showBossStage();
+            } else {
+                currentHP -= 34;
+                if (currentHP < 0) currentHP = 0;
+                
+                const hpFill = document.getElementById('hp-fill');
+                const hpText = document.getElementById('hp-text');
+                if (hpFill) hpFill.style.width = `${currentHP}%`;
+                if (hpText) hpText.innerText = `${currentHP}/100`;
+
+                if (currentHP <= 0) {
+                    alert("Oof! Wrong answer took your last HP. Try the Boss Arena again!");
+                    closeGame();
+                } else {
+                    alert("Wrong answer! You took damage in the lightning round.");
+                    bossCurrentIndex++;
+                    showBossStage();
+                }
+            }
+        }
+
+        function resetProgress() {
+            if (confirm("Are you sure you want to reset all progress and badges back to zero?")) {
+                userProgress = { socrates: 1, plato: 1, aristotle: 1 };
+                unlockedBadges = { first_step: false, socrates_master: false, plato_master: false, aristotle_master: false, grand_philosopher: false };
+                localStorage.removeItem('philoblox_progress');
+                localStorage.removeItem('philoblox_badges');
+                updateUI();
+                if(document.getElementById('game-modal').style.display === 'flex') {
+                    closeGame();
+                }
+            }
+        }
+
+        updateUI();
+    </script>
+</body>
+</html>
