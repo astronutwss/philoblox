@@ -264,6 +264,9 @@
             background-color: #101422;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .game-thumb-wrapper img {
@@ -275,17 +278,6 @@
 
         .game-card:hover .game-thumb-wrapper img {
             transform: scale(1.05);
-        }
-
-        .fallback-thumb {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #64748b;
-            font-weight: bold;
         }
 
         .thumb-menu-dots {
@@ -303,6 +295,7 @@
             font-size: 14px;
             backdrop-filter: blur(6px);
             border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2;
         }
 
         .card-details {
@@ -702,7 +695,7 @@
 
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+            <img src="./logo.png" alt="Logo">
             <h1>PhiloBlox</h1>
         </div>
         <div class="nav-right">
@@ -724,8 +717,7 @@
             
             <div class="game-card" onclick="openGame('socrates')">
                 <div class="game-thumb-wrapper">
-                    <img src="socrates.png" alt="Socrates" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">socrates.png</div>
+                    <img src="./socrates.png" alt="Socrates">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -744,8 +736,7 @@
 
             <div class="game-card" onclick="openGame('plato')">
                 <div class="game-thumb-wrapper">
-                    <img src="plato.png" alt="Plato" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">plato.png</div>
+                    <img src="./plato.png" alt="Plato">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -764,8 +755,7 @@
 
             <div class="game-card" onclick="openGame('aristotle')">
                 <div class="game-thumb-wrapper">
-                    <img src="aristotle.png" alt="Aristotle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">aristotle.png</div>
+                    <img src="./aristotle.png" alt="Aristotle">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -784,7 +774,7 @@
 
             <div class="game-card" id="boss-card-wrapper" onclick="openGame('boss')">
                 <div class="game-thumb-wrapper" style="background: linear-gradient(135deg, #2b1120, #4a1525);">
-                    <div class="fallback-thumb" id="boss-thumb-text" style="color: #ff4466; font-family: 'Fredoka', sans-serif;">🔒 LOCKED</div>
+                    <div style="color: #ff4466; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: bold; text-align: center; width: 100%;" id="boss-thumb-text">🔒 LOCKED</div>
                     <div class="thumb-menu-dots">👑</div>
                 </div>
                 <div class="card-details">
