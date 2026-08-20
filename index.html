@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhiloBlox - Learn & Battle</title>
+    <title>PhiloBlox - Discover & Battle</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -117,13 +117,6 @@
             cursor: pointer;
         }
 
-        .logo-container img {
-            width: 38px;
-            height: 38px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 8px rgba(0, 112, 243, 0.6));
-        }
-
         header h1 {
             font-family: 'Fredoka', sans-serif;
             font-size: 24px;
@@ -196,8 +189,6 @@
             padding: 30px;
             border: 2px solid #2e3a63;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
         }
 
         .hero-banner h2 {
@@ -244,7 +235,6 @@
             border: 2px solid #232a45;
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
-            will-change: transform;
         }
 
         .game-card:hover {
@@ -275,17 +265,6 @@
 
         .game-card:hover .game-thumb-wrapper img {
             transform: scale(1.05);
-        }
-
-        .fallback-thumb {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #64748b;
-            font-weight: bold;
         }
 
         .thumb-menu-dots {
@@ -389,12 +368,6 @@
             z-index: 1000;
             display: none;
             backdrop-filter: blur(8px);
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal {
@@ -405,12 +378,6 @@
             border: 2px solid #2e3a63;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes scaleUp {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
 
         .modal-header {
@@ -638,7 +605,6 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            transition: transform 0.2s;
         }
 
         .badge-item.unlocked {
@@ -684,12 +650,12 @@
 <body>
 
     <div id="loader-screen">
-        <div class="loader-logo">PhiloBlox Initializing...</div>
+        <div class="loader-logo">PHILOPLAY CLIENT</div>
         <div class="loader-bar-bg">
             <div class="loader-bar-fill" id="load-progress"></div>
         </div>
-        <div id="loader-status" style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">Assets Loading...</div>
-        <button class="launch-btn" id="launch-app-btn" onclick="dismissLoader()">CLICK TO PLAY</button>
+        <div id="loader-status" style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">Loading Assets...</div>
+        <button class="launch-btn" id="launch-app-btn" onclick="dismissLoader()">PLAY NOW</button>
     </div>
 
     <div class="achievement-popup" id="achievement-popup">
@@ -702,7 +668,6 @@
 
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
             <h1>PhiloBlox</h1>
         </div>
         <div class="nav-right">
@@ -714,7 +679,7 @@
 
     <div class="hero-banner">
         <h2>Ultimate Philosophy Arena</h2>
-        <p>Learn The Core Secret, Play And Learn To Level Up!</p>
+        <p>Choose your arena, learn the core secret, and battle legendary thinkers to level up your mind!</p>
     </div>
 
     <div class="container">
@@ -724,8 +689,7 @@
             
             <div class="game-card" onclick="openGame('socrates')">
                 <div class="game-thumb-wrapper">
-                    <img src="./socrates.png" alt="Socrates" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">socrates.png</div>
+                    <img src="socrates.png" alt="Socrates">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -744,8 +708,7 @@
 
             <div class="game-card" onclick="openGame('plato')">
                 <div class="game-thumb-wrapper">
-                    <img src="./plato.png" alt="Plato" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">plato.png</div>
+                    <img src="plato.png" alt="Plato">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -764,8 +727,7 @@
 
             <div class="game-card" onclick="openGame('aristotle')">
                 <div class="game-thumb-wrapper">
-                    <img src="./aristotle.png" alt="Aristotle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="fallback-thumb" style="display:none;">aristotle.png</div>
+                    <img src="aristotle.png" alt="Aristotle">
                     <div class="thumb-menu-dots">•••</div>
                 </div>
                 <div class="card-details">
@@ -784,15 +746,15 @@
 
             <div class="game-card" id="boss-card-wrapper" onclick="openGame('boss')">
                 <div class="game-thumb-wrapper" style="background: linear-gradient(135deg, #2b1120, #4a1525);">
-                    <div class="fallback-thumb" id="boss-thumb-text" style="color: #ff4466; font-family: 'Fredoka', sans-serif;">🔒 LOCKED</div>
+                    <div class="fallback-thumb" id="boss-thumb-text" style="color: #ff4466; font-family: 'Fredoka', sans-serif; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 14px; font-weight: bold;">🔒 LOCKED</div>
                     <div class="thumb-menu-dots">👑</div>
                 </div>
                 <div class="card-details">
                     <div class="game-title" style="color: #ff6b8b;">Grand Boss Arena</div>
                     <div class="game-rating-row">
-                        <span>Lighting Timer</span>
+                        <span>Lightning Timer</span>
                         <span>•</span>
-                        <span>Test Your Knowledge!</span>
+                        <span>Ultimate Test</span>
                     </div>
                     <div class="level-tag" id="badge-boss" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">Locked Arena</div>
                     <button class="play-action-btn" id="boss-action-btn" style="background: linear-gradient(135deg, #374151, #1f2937); cursor: not-allowed;">
@@ -856,9 +818,6 @@
             }, 400);
         }
 
-            //// QUESTIONS AND ANSWER AREA ////**
-
-
         const gameData = {
             socrates: {
                 name: "Wisdom Arena",
@@ -910,7 +869,7 @@
             first_step: { name: "First Step", desc: "Complete any level", icon: "🌱", unlocked: false },
             socrates_master: { name: "Socrates Master", desc: "Finish Wisdom Arena", icon: "🏛️", unlocked: false },
             plato_master: { name: "Plato Master", desc: "Finish Plato's Realm", icon: "🔮", unlocked: false },
-            aristotle_master: { name: "Aristotle Master", desc: "Finish The Virtue Quest", icon: "⚔️", unlocked: false },
+            aristotle_master: { name: "Aristotle Master", desc: "Finish Virtue Quest", icon: "⚔️", unlocked: false },
             grand_philosopher: { name: "Grand Philosopher", desc: "Beat the Grand Boss Arena", icon: "👑", unlocked: false }
         };
 
@@ -980,8 +939,6 @@
             const bossThumb = document.getElementById('boss-thumb-text');
             const bossBadge = document.getElementById('badge-boss');
             const bossBtn = document.getElementById('boss-action-btn');
-            
-                ///SECRET GAME MODE
 
             if (bossUnlocked) {
                 bossCard.classList.remove('locked-arena');
@@ -1108,9 +1065,6 @@
             `;
         }
 
-            ///ANDITO HP
-
-
         function startQuizStage(levelNum) {
             const modalBody = document.getElementById('modal-body-content');
             const data = gameData[activeKey];
@@ -1157,7 +1111,7 @@
                     currentHP = 100;
                     showLessonStage(levelNum);
                 } else {
-                    alert("Mali Sagot mo, Try mo ulit.");
+                    alert("Wrong answer, you took damage! Read the lesson carefully and pick again.");
                 }
             }
         }
@@ -1229,8 +1183,6 @@
                 }
             }, 1000);
         }
-
-            //final boss hp haha
 
         function checkBossAnswer(selected, correct) {
             if (bossTimerInterval) clearInterval(bossTimerInterval);
