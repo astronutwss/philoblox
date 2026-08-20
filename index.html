@@ -529,6 +529,83 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
 
+        .avatar-container {
+            display: flex;
+            align-items: center;
+            background: #131829;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #232a45;
+            gap: 12px;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #0070f3;
+            object-fit: cover;
+            background: #000;
+            transition: filter 0.3s;
+        }
+
+        .avatar-reaction {
+            font-size: 22px;
+            margin-left: -25px;
+            margin-top: 30px;
+            background: #131829;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #232a45;
+            z-index: 5;
+        }
+
+        .question-wrap {
+            flex: 1;
+        }
+
+        .hint-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: filter 0.2s;
+        }
+
+        .hint-btn:hover:not(:disabled) {
+            filter: brightness(1.1);
+        }
+
+        .hint-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .fail-screen {
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .fail-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
         .dialogue-box {
             background: linear-gradient(135deg, #1b233a, #13192b);
             padding: 18px;
@@ -545,7 +622,6 @@
             font-family: 'Fredoka', sans-serif;
             font-size: 17px;
             font-weight: 600;
-            margin-bottom: 16px;
             color: #ffffff;
         }
 
@@ -703,6 +779,22 @@
         .badge-desc {
             font-size: 11px;
             color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+                gap: 15px;
+            }
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .hero-banner {
+                margin: 15px auto 0 auto;
+            }
         }
     </style>
 </head>
@@ -1064,6 +1156,66 @@
         let bossCurrentIndex = 0;
         let activeLevelNum = 1;
 
+        function getAvatarSrc() {
+            if (activeKey === 'socrates') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/socrates.png';
+            if (activeKey === 'plato') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/plato.png';
+            if (activeKey === 'aristotle') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/aristotle.png';
+            return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/logo.png';
+        }
+
+        function setAvatarState(state) {
+            const reaction = document.getElementById('avatar-reaction');
+            const img = document.getElementById('philosopher-avatar');
+            if (!reaction || !img) return;
+            
+            if (state === 'thinking') {
+                reaction.innerText = '🤔';
+                img.style.filter = 'none';
+            } else if (state === 'pleased') {
+                reaction.innerText = '🤩';
+                img.style.filter = 'drop-shadow(0 0 10px #22c55e)';
+            } else if (state === 'defeated') {
+                reaction.innerText = '😵';
+                img.style.filter = 'grayscale(100%)';
+            }
+        }
+
+        function useHint(correctIdx) {
+            if (currentHP <= 15) {
+                alert("Not enough HP to use a hint!");
+                return;
+            }
+            playSFX('click');
+            currentHP -= 15;
+            document.getElementById('hp-fill').style.width = `${currentHP}%`;
+            document.getElementById('hp-text').innerText = `${currentHP}/100`;
+            
+            document.getElementById('hint-btn').disabled = true;
+            
+            const options = document.querySelectorAll('.option-btn');
+            let hidden = false;
+            options.forEach(btn => {
+                if (!hidden && btn.dataset.idx != correctIdx && btn.style.display !== 'none') {
+                    btn.style.display = 'none';
+                    hidden = true;
+                }
+            });
+            setAvatarState('thinking');
+        }
+
+        function showFailScreen(levelNum, isBoss = false) {
+            const modalBody = document.getElementById('modal-body-content');
+            modalBody.innerHTML = `
+                <div class="fail-screen">
+                    <div class="fail-icon">😵</div>
+                    <h2 style="color: #ef4444; font-size: 26px; margin-bottom: 10px; font-family: 'Fredoka', sans-serif;">Level Failed!</h2>
+                    <p style="margin-bottom: 25px; color: #94a3b8; font-size: 16px;">You made 2 mistakes and your HP dropped to 0.</p>
+                    <button class="action-btn" onclick="playSFX('click'); ${isBoss ? 'showBossStage()' : `openGame('${activeKey}')`};">Try Again</button>
+                    <button class="action-btn" style="background: linear-gradient(135deg, #475569, #334155); margin-top: 10px;" onclick="playSFX('click'); closeGame();">Back to Menu</button>
+                </div>
+            `;
+        }
+
         function triggerAchievement(badgeKey) {
             if (!unlockedBadges[badgeKey]) {
                 unlockedBadges[badgeKey] = true;
@@ -1089,22 +1241,13 @@
         function checkAchievements() {
             let totalLvl = 0;
             for (let key in userProgress) {
-                if(key !== 'boss') totalLvl += userProgress[key];
+                if (key !== 'boss') totalLvl += userProgress[key];
             }
 
-            if (totalLvl > 3) {
-                triggerAchievement('first_step');
-            }
-
-            if (userProgress.socrates > 5) {
-                triggerAchievement('socrates_master');
-            }
-            if (userProgress.plato > 5) {
-                triggerAchievement('plato_master');
-            }
-            if (userProgress.aristotle > 5) {
-                triggerAchievement('aristotle_master');
-            }
+            if (totalLvl > 3) triggerAchievement('first_step');
+            if (userProgress.socrates > 5) triggerAchievement('socrates_master');
+            if (userProgress.plato > 5) triggerAchievement('plato_master');
+            if (userProgress.aristotle > 5) triggerAchievement('aristotle_master');
 
             const bossUnlocked = isBossUnlocked();
             const bossCard = document.getElementById('boss-card-wrapper');
@@ -1265,29 +1408,44 @@
                     </div>
                 </div>
 
-                <div class="question-box">Challenge: ${stageData.question}</div>
+                <div class="avatar-container">
+                    <img id="philosopher-avatar" class="avatar-img" src="${getAvatarSrc()}">
+                    <div id="avatar-reaction" class="avatar-reaction">🤔</div>
+                    <div class="question-wrap">
+                        <div class="question-box" style="margin-bottom: 0;">Challenge: ${stageData.question}</div>
+                    </div>
+                </div>
+
+                <button id="hint-btn" class="hint-btn" onclick="useHint(${stageData.correct})">💡 50/50 Hint (-15 HP)</button>
                 
                 <div class="options-grid">
                     ${shuffledOptions.map((optObj) => `
-                        <button class="option-btn" onclick="checkAnswer(${optObj.originalIndex}, ${stageData.correct}, ${levelNum})">${optObj.item}</button>
+                        <button class="option-btn" data-idx="${optObj.originalIndex}" onclick="checkAnswer(${optObj.originalIndex}, ${stageData.correct}, ${levelNum})">${optObj.item}</button>
                     `).join('')}
                 </div>
             `;
         }
 
         function checkAnswer(selected, correct, levelNum) {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => btn.disabled = true);
+
             if (selected === correct) {
                 playSFX('correct');
-                if (userProgress[activeKey] === levelNum) {
-                    userProgress[activeKey] = levelNum + 1;
-                    updateUI();
-                }
-                showLessonStage(levelNum + 1);
+                setAvatarState('pleased');
+                setTimeout(() => {
+                    if (userProgress[activeKey] === levelNum) {
+                        userProgress[activeKey] = levelNum + 1;
+                        updateUI();
+                    }
+                    showLessonStage(levelNum + 1);
+                }, 1000);
             } else {
-                currentHP -= 34;
+                currentHP -= 50;
                 if (currentHP < 0) currentHP = 0;
                 
                 triggerDamageVisual();
+                setAvatarState('defeated');
                 
                 const hpFill = document.getElementById('hp-fill');
                 const hpText = document.getElementById('hp-text');
@@ -1295,11 +1453,14 @@
                 if (hpText) hpText.innerText = `${currentHP}/100`;
                 
                 if (currentHP <= 0) {
-                    alert("Oof! Your HP hit 0 in the battle. Review the lesson and try again!");
-                    currentHP = 100;
-                    showLessonStage(levelNum);
+                    setTimeout(() => {
+                        showFailScreen(levelNum, false);
+                    }, 800);
                 } else {
-                    alert("Mali Sagot mo, Try mo ulit.");
+                    setTimeout(() => {
+                        setAvatarState('thinking');
+                        options.forEach(btn => btn.disabled = false);
+                    }, 1000);
                 }
             }
         }
@@ -1339,11 +1500,19 @@
                     </div>
                 </div>
 
-                <div class="question-box" style="color: #ff6b8b;">Lightning Round (${bossCurrentIndex + 1}/${bossQuestions.length}): ${qData.question}</div>
-                
+                <div class="avatar-container">
+                    <img id="philosopher-avatar" class="avatar-img" src="${getAvatarSrc()}">
+                    <div id="avatar-reaction" class="avatar-reaction">🤔</div>
+                    <div class="question-wrap">
+                        <div class="question-box" style="margin-bottom: 0; color: #ff6b8b;">Lightning Round (${bossCurrentIndex + 1}/${bossQuestions.length}): ${qData.question}</div>
+                    </div>
+                </div>
+
+                <button id="hint-btn" class="hint-btn" onclick="useHint(${qData.correct})">💡 50/50 Hint (-15 HP)</button>
+
                 <div class="options-grid">
                     ${shuffledOptions.map((optObj) => `
-                        <button class="option-btn" onclick="checkBossAnswer(${optObj.originalIndex}, ${qData.correct})">${optObj.item}</button>
+                        <button class="option-btn" data-idx="${optObj.originalIndex}" onclick="checkBossAnswer(${optObj.originalIndex}, ${qData.correct})">${optObj.item}</button>
                     `).join('')}
                 </div>
             `;
@@ -1355,10 +1524,11 @@
 
                 if (bossTimeLeft <= 0) {
                     clearInterval(bossTimerInterval);
-                    currentHP -= 34;
+                    currentHP -= 50;
                     if (currentHP < 0) currentHP = 0;
                     
                     triggerDamageVisual();
+                    setAvatarState('defeated');
                     
                     const hpFill = document.getElementById('hp-fill');
                     const hpText = document.getElementById('hp-text');
@@ -1366,12 +1536,14 @@
                     if (hpText) hpText.innerText = `${currentHP}/100`;
 
                     if (currentHP <= 0) {
-                        alert("Time ran out and your HP hit 0! Try the Boss Arena again.");
-                        closeGame();
+                        setTimeout(() => {
+                            showFailScreen(0, true);
+                        }, 800);
                     } else {
-                        alert("Time's up! You took damage for being too slow.");
-                        bossCurrentIndex++;
-                        showBossStage();
+                        setTimeout(() => {
+                            bossCurrentIndex++;
+                            showBossStage();
+                        }, 1000);
                     }
                 }
             }, 1000);
@@ -1380,15 +1552,22 @@
         function checkBossAnswer(selected, correct) {
             if (bossTimerInterval) clearInterval(bossTimerInterval);
 
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => btn.disabled = true);
+
             if (selected === correct) {
                 playSFX('correct');
-                bossCurrentIndex++;
-                showBossStage();
+                setAvatarState('pleased');
+                setTimeout(() => {
+                    bossCurrentIndex++;
+                    showBossStage();
+                }, 1000);
             } else {
-                currentHP -= 34;
+                currentHP -= 50;
                 if (currentHP < 0) currentHP = 0;
                 
                 triggerDamageVisual();
+                setAvatarState('defeated');
                 
                 const hpFill = document.getElementById('hp-fill');
                 const hpText = document.getElementById('hp-text');
@@ -1396,12 +1575,14 @@
                 if (hpText) hpText.innerText = `${currentHP}/100`;
 
                 if (currentHP <= 0) {
-                    alert("Oof! Wrong answer took your last HP. Try the Boss Arena again!");
-                    closeGame();
+                    setTimeout(() => {
+                        showFailScreen(0, true);
+                    }, 800);
                 } else {
-                    alert("Wrong answer! You took damage in the lightning round.");
-                    bossCurrentIndex++;
-                    showBossStage();
+                    setTimeout(() => {
+                        bossCurrentIndex++;
+                        showBossStage();
+                    }, 1000);
                 }
             }
         }
