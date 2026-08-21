@@ -896,15 +896,16 @@
                 </div>
             </div>
 
-            <div class="game-card" id="boss-card-wrapper" onclick="openGame('boss')">
+            <div class="game-card locked-arena" id="boss-card-wrapper" onclick="openGame('boss')">
                 <div class="game-thumb-wrapper" style="background: linear-gradient(135deg, #2b1120, #4a1525);">
-                    <div style="color: #ff4466; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: bold; text-align: center; width: 100%;" id="boss-thumb-text">🔒 LOCKED</div>
+                    <img src="https://raw.githubusercontent.com/astronutwss/philoblox/main/boss.png" alt="Grand Boss Arena" id="boss-img" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(50%); transition: filter 0.3s;">
+                    <div style="position: absolute; color: #ff4466; font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: bold; text-align: center; width: 100%; text-shadow: 0 2px 4px rgba(0,0,0,0.8);" id="boss-thumb-text">🔒 LOCKED</div>
                     <div class="thumb-menu-dots">👑</div>
                 </div>
                 <div class="card-details">
                     <div class="game-title" style="color: #ff6b8b;">Grand Boss Arena</div>
                     <div class="game-rating-row">
-                        <span>Lighting Timer</span>
+                        <span>Lightning Timer</span>
                         <span>•</span>
                         <span>Test Your Knowledge!</span>
                     </div>
@@ -1160,6 +1161,7 @@
             if (activeKey === 'socrates') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/socrates.png';
             if (activeKey === 'plato') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/plato.png?v=2';
             if (activeKey === 'aristotle') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/aristotle.png?v=2';
+            if (activeKey === 'boss') return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/boss.png';
             return 'https://raw.githubusercontent.com/astronutwss/philoblox/main/logo.png';
         }
 
@@ -1209,7 +1211,7 @@
                 <div class="fail-screen">
                     <div class="fail-icon">😵</div>
                     <h2 style="color: #ef4444; font-size: 26px; margin-bottom: 10px; font-family: 'Fredoka', sans-serif;">Level Failed!</h2>
-                    <p style="margin-bottom: 25px; color: #94a3b8; font-size: 16px;">You made 2 mistakes and your HP dropped to 0.</p>
+                    <p style="margin-bottom: 25px; color: #94a3b8; font-size: 16px;">You made mistakes and your HP dropped to 0.</p>
                     <button class="action-btn" onclick="playSFX('click'); ${isBoss ? 'showBossStage()' : `openGame('${activeKey}')`};">Try Again</button>
                     <button class="action-btn" style="background: linear-gradient(135deg, #475569, #334155); margin-top: 10px;" onclick="playSFX('click'); closeGame();">Back to Menu</button>
                 </div>
@@ -1254,11 +1256,12 @@
             const bossThumb = document.getElementById('boss-thumb-text');
             const bossBadge = document.getElementById('badge-boss');
             const bossBtn = document.getElementById('boss-action-btn');
+            const bossImg = document.getElementById('boss-img');
 
             if (bossUnlocked) {
                 bossCard.classList.remove('locked-arena');
-                bossThumb.innerText = "BOSS ARENA";
-                bossThumb.style.color = "#00ffcc";
+                bossThumb.innerText = "";
+                if(bossImg) bossImg.style.filter = 'none';
                 bossBadge.innerText = "Ready to Fight";
                 bossBadge.style.background = "linear-gradient(135deg, #10b981, #059669)";
                 bossBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
@@ -1267,7 +1270,7 @@
             } else {
                 bossCard.classList.add('locked-arena');
                 bossThumb.innerText = "🔒 LOCKED";
-                bossThumb.style.color = "#ff4466";
+                if(bossImg) bossImg.style.filter = 'grayscale(100%) brightness(50%)';
                 bossBadge.innerText = "Locked Arena";
                 bossBadge.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
                 bossBtn.style.background = "linear-gradient(135deg, #374151, #1f2937)";
